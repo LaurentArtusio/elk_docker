@@ -1,0 +1,18 @@
+server.host: "0.0.0.0"
+
+logging:
+  appenders:
+    file:
+      type: file
+      fileName: /var/log/kibana/kibana.log
+      layout:
+        type: json
+  root:
+    appenders:
+      - default
+      - file
+
+pid.file: /run/kibana/kibana.pid
+
+server.ssl.enabled: false
+elasticsearch.ssl.verificationMode: none
