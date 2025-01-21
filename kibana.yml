@@ -16,3 +16,4 @@ pid.file: /run/kibana/kibana.pid
 
 server.ssl.enabled: false
 elasticsearch.ssl.verificationMode: none
+elasticsearch.hosts: [ "http://elasticsearch:9200" ]

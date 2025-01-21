@@ -2,14 +2,36 @@ version: '3.3'
 
 services:
   elasticsearch:
+    build:
+      context: .
+      dockerfile: elastic8.dockerfile
     image: elastic8
     volumes:
       - elastic_data:/var/lib/elasticsearch
     ports:
       - "9200:9200"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9200/_cluster/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
   kibana:
+    build:
+      context: .
+      dockerfile: kibana8.dockerfile
     image: kibana8
+    depends_on:
+      - elasticsearch
+    entrypoint: >
+      /bin/sh -c "
+      until curl -s http://elasticsearch:9200/_cluster/health | grep '\"status\":\"green\"' > /dev/null; do
+        echo 'Waiting for Elasticsearch to be healthy...';
+        sleep 1;
+      done;
+      echo 'Elasticsearch is healthy! Starting Kibana...';
+      exec kibana
+      "
     ports:
       - "5601:5601"
 

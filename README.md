@@ -1,14 +1,28 @@
 # elk_docker
 
+This project offers a pre-configured setup of Elasticsearch and Kibana, bundled together for seamless integration.
+
+## Requirements
+
+You need [Docker](https://docs.docker.com/engine/install/) + [Docker Compose](https://docs.docker.com/desktop/setup/install/linux/) 
+
+## Running the stack
+
+From the project directory, type ``docker-compose up``
+
+This command builds both the Elasticsearch and Kibana containers before running them. So the first run can take some time.
+
+## Project files
+- The elasticsearch.yml and kibana.yml files serve as configuration files for Elasticsearch and Kibana, respectively. 
+These files are copied into their corresponding container images. For simplicity, security features are disabled, and 
+Elasticsearch is configured to run as a single-node cluster.
+- The elastic8.dockerfile and kibana8.dockerfile define the Dockerfiles used to build the container images for 
+Elasticsearch and Kibana.
 
 
-## Getting started
 
-To make it easy for you to get started with GitLab, here's a list of recommended next steps.
 
-Already a pro? Just edit this README.md and make it your own. Want to make it easy? [Use the template at the bottom](#editing-this-readme)!
 
-## Add your files
 
 - [ ] [Create](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#create-a-file) or [upload](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#upload-a-file) files
 - [ ] [Add files using the command line](https://docs.gitlab.com/ee/gitlab-basics/add-file.html#add-a-file-using-the-command-line) or push an existing Git repository with the following command:

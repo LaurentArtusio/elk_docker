@@ -30,7 +30,6 @@ ENV ELASTIC_LOGS=/var/log/elasticsearch/
 ENV ELASTIC_DATA=/var/lib/elasticsearch/
 
 ENV UDP_PORT=52635
-ENV NETWORK_INTERFACE=eth0
 #RUN echo "kibana ALL=(ALL) NOPASSWD:ALL" | tee /etc/sudoers.d/kibana
 
 COPY elasticsearch.yml $ELASTIC_CONFIG
@@ -40,14 +39,11 @@ RUN chown -R elasticsearch:elasticsearch $ELASTIC_CONFIG
 RUN chown -R elasticsearch:elasticsearch $ELASTIC_LOGS
 RUN chown -R elasticsearch:elasticsearch $ELASTIC_DATA
 
-COPY wait_for_elastic_to_be_ready.py $HOME
-COPY inform_kibana_container_that_elastic_is_ready.py $HOME
-
 RUN chown -R elasticsearch:elasticsearch $HOME
 
 USER elasticsearch
 WORKDIR /home/elasticsearch
 
 ENV ES_JAVA_OPTS="-Xms512m -Xmx512m"
-CMD ["sh", "-c", "elasticsearch & python3 wait_for_elastic_to_be_ready.py && python3 inform_kibana_container_that_elastic_is_ready.py && tail -f $ELASTIC_LOGS/elasticsearch.log"]
+CMD ["sh", "-c", "elasticsearch"]
 #CMD ["sleep","infinity"]

@@ -25,14 +25,10 @@ ENV KIBANA_CONFIG=/etc/kibana/
 ENV KIBANA_LOGS=/var/log/kibana/
 ENV KIBANA_DATA=/var/lib/kibana/
 
-ENV UDP_PORT=52635
-ENV NETWORK_INTERFACE=eth0
 #RUN echo "kibana ALL=(ALL) NOPASSWD:ALL" | sudo tee /etc/sudoers.d/kibana
 
 RUN chown -R kibana:kibana $KIBANA_HOME
 
-COPY wait_for_elastic_ip_address.py $HOME
-RUN chmod +x $HOME/wait_for_elastic_ip_address.py
 COPY kibana.yml $KIBANA_CONFIG
 
 RUN chown -R kibana:kibana $HOME
@@ -46,6 +42,6 @@ WORKDIR /home/kibana/
 RUN echo "alias lm='ls -rtl'" > .bashrc
 
 ENV ES_JAVA_OPTS="-Xms512m -Xmx512m"
-CMD ["sh", "-c", "python3 -u wait_for_elastic_ip_address.py && kibana"]
+CMD ["sh", "-c", "kibana"]
 #CMD ["sleep", "infinity"]
 
