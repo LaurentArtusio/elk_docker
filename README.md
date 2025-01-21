@@ -5,7 +5,7 @@ Elasticsearch data are stored in a Docker volume which make them persistent betw
 
 ## Requirements
 
-You need [Docker](https://docs.docker.com/engine/install/) + [Docker Compose](https://docs.docker.com/desktop/setup/install/linux/) 
+You need [Docker](https://docs.docker.com/engine/install/) + [Docker Compose](https://docs.docker.com/compose/install/linux/#install-using-the-repository) 
 
 ## Running the stack
 
