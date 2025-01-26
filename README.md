@@ -9,9 +9,9 @@ You need [Docker](https://docs.docker.com/engine/install/) + [Docker Compose](ht
 
 ## Running the stack
 
-From the project directory, type ``docker-compose up``
+From the project root directory, type ``docker-compose up``
 
-This command builds both the Elasticsearch and Kibana containers before running them. So the first run can take some time.
+This command builds both the Elasticsearch and Kibana containers before running them. So the first run takes some time.
 
 ## Project files
 - The ``elasticsearch.yml`` and ``kibana.yml`` files serve as configuration files for Elasticsearch and Kibana, respectively. 

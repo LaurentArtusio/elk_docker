@@ -4,21 +4,12 @@ FROM ubuntu:24.04
 EXPOSE 9200/tcp
 
 RUN apt-get update --fix-missing && apt -y upgrade
-RUN apt -y install apt-transport-https
-RUN apt -y install curl
-RUN apt -y install vim
-RUN apt -y install sudo
-RUN apt -y install gnupg
-RUN apt -y install net-tools
-RUN apt -y install python3
-RUN apt -y install python3-pip
-RUN apt -y install python3-psutil
-RUN apt -y install wget
+RUN apt -y install gnupg && apt -y install wget && apt -y install curl
 
 RUN groupadd elasticsearch && useradd -m -s /bin/bash -g elasticsearch elasticsearch
 RUN echo "alias lm='ls -rtl'" >> /home/elasticsearch/.bashrc
 
-RUN wget -qO - https://artifacts.elastic.co/GPG-KEY-elasticsearch | sudo gpg --dearmor -o /usr/share/keyrings/elasticsearch-keyring.gpg
+RUN wget -qO - https://artifacts.elastic.co/GPG-KEY-elasticsearch | gpg --dearmor -o /usr/share/keyrings/elasticsearch-keyring.gpg
 RUN echo "deb [signed-by=/usr/share/keyrings/elasticsearch-keyring.gpg] https://artifacts.elastic.co/packages/8.x/apt stable main" | tee /etc/apt/sources.list.d/elastic-8.x.list
 RUN apt -y update && apt -y install elasticsearch
 
@@ -30,7 +21,6 @@ ENV ELASTIC_LOGS=/var/log/elasticsearch/
 ENV ELASTIC_DATA=/var/lib/elasticsearch/
 
 ENV UDP_PORT=52635
-#RUN echo "kibana ALL=(ALL) NOPASSWD:ALL" | tee /etc/sudoers.d/kibana
 
 COPY elasticsearch.yml $ELASTIC_CONFIG
 
@@ -45,5 +35,5 @@ USER elasticsearch
 WORKDIR /home/elasticsearch
 
 ENV ES_JAVA_OPTS="-Xms512m -Xmx512m"
-CMD ["sh", "-c", "elasticsearch"]
-#CMD ["sleep","infinity"]
+CMD ["elasticsearch"]
+
