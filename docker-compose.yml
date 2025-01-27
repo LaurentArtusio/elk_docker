@@ -1,5 +1,3 @@
-version: '3.3'
-
 services:
   elasticsearch:
     build:
@@ -23,15 +21,27 @@ services:
     image: kibana8
     depends_on:
       - elasticsearch
-    entrypoint: >
-      /bin/sh -c "
-      until curl -s http://elasticsearch:9200/_cluster/health | grep '\"status\":\"green\"' > /dev/null; do
-        echo 'Waiting for Elasticsearch to be healthy...';
-        sleep 1;
-      done;
-      echo 'Elasticsearch is healthy! Starting Kibana...';
+    entrypoint: |
+      /bin/bash -c '
+      echo "Waiting for Elasticsearch to be ready..."
+      while true; do
+        CLUSTER_HEALTH=$(curl -s http://elasticsearch:9200/_cluster/health | grep -oP "(?<=\"status\":\")[a-z]+")
+        if [ "$$CLUSTER_HEALTH" == "green" ]; then
+          echo "Elasticsearch is completely healthy : status is now $$CLUSTER_HEALTH"
+          break
+        elif [ "$$CLUSTER_HEALTH" == "yellow" ]; then
+          echo "Elasticsearch is partly healthy : status is now $$CLUSTER_HEALTH. It'\''s not great, but it'\''s enough to start Kibana."
+          break
+        elif [ "$$CLUSTER_HEALTH" == "red" ]; then
+          echo "WARNING: Elasticsearch is in $$CLUSTER_HEALTH state. It might resolve by itself in a few seconds. Otherwise check your cluster and try to delete the data volume !"
+        else
+          echo "Elasticsearch health status not yet available ... waiting for it to be available ..."
+        fi
+        sleep 1
+      done
+      echo "Starting Kibana..."
       exec kibana
-      "
+      '
     ports:
       - "5601:5601"
 

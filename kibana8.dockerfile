@@ -2,8 +2,7 @@ FROM ubuntu:24.04
 
 EXPOSE 5601/tcp
 
-RUN apt -y update && apt -y upgrade
-RUN apt -y install wget && apt -y install gnupg && apt -y install curl
+RUN apt -y update && apt -y upgrade && apt -y install wget gnupg curl
 
 RUN groupadd kibana && useradd -m -s /bin/bash -g kibana kibana
 
