@@ -16,5 +16,5 @@ docker run --name kibana8 --net elastic -p 5601:5601 -m 1GB kibana8
 # Simply run the ELK stack
 docker compose up
 
-# Force pulling of base images, does not use any existing cache, and (re)build the docker files
-docker compose up --build --no-cache --pull
+# Force rebuild without using cache + run
+docker compose build --no-cache && docker compose up
